@@ -42,3 +42,27 @@ SELECT loj_prod, SUM(preco_prod) AS total_preco
 FROM produtos
 GROUP BY loj_prod
 HAVING SUM (preco_prod) > 100000;
+
+-- Crie uma única consulta que traga o código
+-- da loja, a descrição da loja, o código do produto, a descrição do produto, 
+-- o preço e a quantidade em estoque dos produtos da loja 1.
+SELECT L.codigo_loja, L.descricao_loja, P.codigo_produto, P.descricao_produto, P.preco, E.quantidade_estoque
+FROM Lojas L
+INNER JOIN Produtos P ON L.codigo_loja = P.codigo_loja
+LEFT JOIN Estoque E ON P.codigo_produto = E.codigo_produto AND L.codigo_loja = E.codigo_loja
+WHERE L.codigo_loja = 1;
+
+
+-- Encontre todos os produtos que estão na tabela 
+-- de produtos, mas não estão na tabela de estoque.
+SELECT P.*
+FROM Produtos P
+LEFT JOIN Estoque E ON P.codigo_produto = E.codigo_produto
+WHERE E.codigo_produto IS NULL;
+
+ -- Descubra todos os produtos que estão na tabela de
+ -- estoque, mas não estão na tabela de produtos.
+SELECT E.*
+FROM Estoque E
+LEFT JOIN Produtos P ON E.codigo_produto = P.codigo_produto
+WHERE P.codigo_produto IS NULL;
